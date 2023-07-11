@@ -12,6 +12,7 @@ buttonB = Pin(15, Pin.IN, Pin.PULL_UP)
 
 x = 0
 y = 0
+
 while True:
     if buttonL.value() == 0:x = x - 1
     if buttonR.value() == 0:x = x + 1
