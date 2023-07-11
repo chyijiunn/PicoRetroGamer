@@ -27,6 +27,13 @@
 	+ OLED 管理套件 - 安裝 ssd1306(micropython-ssd1306)
 	+ 按鈕
 	+ 蜂鳴器
+1. button
+	1. 上拉電阻：press = 0 , unpress = 1
+	1. if 
+	1. for
+	1. import time
+	1. while
+	
 1. button_thread，雙執行緒：按鈕只兩個，利用一個 thread 讀取方向、主程式顯示方向
 	1. 利用按鈕決定方向
 		+ 先設定方向 = 0 (0,1,2,3 = 右,下,左,上)
