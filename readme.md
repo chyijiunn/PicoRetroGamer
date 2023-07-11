@@ -16,7 +16,10 @@
 	1. 放 Reset 按鈕於下層、穿過壓克力與 pico 銲接、鎖 M2 螺絲 4 個
 	1. 鎖 OLED 與上層壓克力的 M2 螺絲 4 個
 	1. 鎖上下層壓克力間 M3 螺絲 4 個
-		+ 實際圖 ![pin](/media/03_arr.HEIC)
+		+ 實際圖 ![pin](/media/03_arr.jpeg)
+		+ 實際圖 ![pin](/media/03_arrBack.jpeg)
+		+ 實際圖 ![pin](/media/04_oledOnBoard.jpeg)
+		+ 實際圖 ![pin](/media/05_finish.jpeg)
 
 ## 流程
 0. pinTest 硬體測試
