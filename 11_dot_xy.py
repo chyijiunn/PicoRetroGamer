@@ -13,10 +13,12 @@ buttonB = Pin(15, Pin.IN, Pin.PULL_UP)
 x = 0
 while True:
     if buttonL.value() == 0:
+        oled.fill(0)
         x = x - 1
         oled.pixel(63+ x,31,1)
         oled.show()
     if buttonR.value() == 0:
+        oled.fill(0)
         x = x + 1
         oled.pixel(63+ x,31,1)
         oled.show()

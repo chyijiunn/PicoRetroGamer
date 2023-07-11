@@ -17,6 +17,7 @@ while True:
     if buttonR.value() == 0:x = x + 1
     if buttonU.value() == 0:y = y - 1
     if buttonD.value() == 0:y = y + 1
+    oled.fill(0)
     oled.pixel(63+x , 31+y ,1)
     oled.show()
 
