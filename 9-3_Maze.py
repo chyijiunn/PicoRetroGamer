@@ -105,10 +105,10 @@ for fileSerial in range(6):
         if y > 64 : y =0
         if y <0 : y = 64
         
-        if direction % 4 == 0:x +=1
-        if direction % 4 == 1:y +=1
-        if direction % 4 == 2:x -=1
-        if direction % 4 == 3:y -=1
+        if direction == 0:x +=1
+        if direction == 1:y +=1
+        if direction == 2:x -=1
+        if direction == 3:y -=1
         
         oled.pixel(x,y,1)
         score = score + 1

@@ -5,12 +5,8 @@ import _thread ,random,sys
 def conway_main():
     start = time()
     generation = 0
-    buzzer = PWM(Pin(12))
-    buzzer.freq(500)
     i2c=I2C(0,sda=Pin(20), scl=Pin(21), freq=40000)
     oled = SSD1306_I2C(128, 64, i2c)
-    buttonR = Pin(3, Pin.IN, Pin.PULL_UP)#press = 0 , unpress = 1
-    buttonL = Pin(2, Pin.IN, Pin.PULL_UP)
 
     scale = 8 #128*64(X), scale:time = 2:44s , 4:9s , 8:2s , 16:1s
     WIDTH = 128/scale
@@ -64,5 +60,4 @@ def conway_main():
         oled.text(str(generation),55,0,1)
         oled.show()
     
-if __name__ == "__main__":
-    conway_main()
+if __name__ == "__main__":conway_main()
