@@ -64,7 +64,7 @@
 1. 失敗了。就爆炸吧
 	+ 定義函式
 	+ 繪圖
-		+ [圖檔範例](http://gg.gg/picocamp)		
+		+ [圖檔範例](https://docs.google.com/spreadsheets/d/1WfAtRL2x2IXqOSgzLyOGKAh6GNKjNJLXlEdWVUywli4/edit?usp=sharing)		
 		+ 讀取檔案
 		+ 把每一個座標抓出後繪點陣圖
 	+ break
