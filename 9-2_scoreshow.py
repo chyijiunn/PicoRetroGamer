@@ -1,13 +1,15 @@
-from machine import Pin, I2C,PWM
+from machine import Pin, I2C
 from ssd1306 import SSD1306_I2C
 from time import sleep
 import _thread
 
 oled = SSD1306_I2C(128, 64, I2C(0,sda=Pin(20), scl=Pin(21), freq=40000))
-buttonR = machine.Pin(16, machine.Pin.IN, machine.Pin.PULL_UP)
-buttonL = machine.Pin(15, machine.Pin.IN, machine.Pin.PULL_UP)
-buzzer = PWM(Pin(12))
-buzzer.freq(500)
+buttonU = Pin(0, Pin.IN, Pin.PULL_UP)
+buttonD = Pin(1, Pin.IN, Pin.PULL_UP)
+buttonL = Pin(2, Pin.IN, Pin.PULL_UP)
+buttonR = Pin(3, Pin.IN, Pin.PULL_UP)
+buttonA = Pin(14, Pin.IN, Pin.PULL_UP)
+buttonB = Pin(15, Pin.IN, Pin.PULL_UP)
 
 oled.fill(0)
 x = 64
@@ -15,28 +17,7 @@ y = 32
 direction = 0
 path =[]
 goal = []
-score = -1
-
-def button_thread():
-    global direction
-    while True:
-        if buttonR.value() == 0:direction = direction + 1
-        if buttonL.value() == 0:direction = direction - 1
-        sleep(0.14)
-
-def fail():
-    buzzer.duty_u16(1000)
-    oled.fill(0)
-    data = open('data/pics/boom','r')
-    for line in data:
-        a = line.split()
-        for i in range(len(a)):
-            xAxis = int(a[i].split(',')[0])
-            yAxis = int(a[i].split(',')[1])
-            oled.pixel(xAxis,yAxis,1)
-    data.close()
-    oled.show()
-    buzzer.duty_u16(0)
+score = 0
     
 def maze(fileSerial):
     global direction
@@ -54,7 +35,6 @@ def maze(fileSerial):
     for i in range(int((num-3)/2)):   
         goal.append([int(b[2*i+3]),int(b[2*i+4])])
 
-    #以下處理迷宮座標資料，使用 readlines 讀取剩餘資料
     mazelist = data.readlines()
     for line in mazelist:
         a = line.split()
@@ -65,53 +45,38 @@ def maze(fileSerial):
             path.append([xAxis,yAxis])
     data.close()
     oled.show()
-    
-def scoreshow(score,mazeName):
-    buzzer.duty_u16(1000)
-    sleep(1)
-    buzzer.duty_u16(0)
-    
-    oled.fill_rect(0, 55, 127, 63, 1)
-    oled.text('score '+str(score),35,55,0)
-    
-    mazeName = '{:0>2}'.format(fileSerial)#格式化、前面補零
-    data = open('data/maze/'+mazeName+'_r')
-    top = int(data.readline())
-    
-    if score < top:
-        data = open('data/maze/'+mazeName+'_r','w')
-        data.write(str(score))
-        top = score
-        
-    oled.fill_rect(0, 0, 127, 7, 1)
-    oled.text('TOP '+str(top),40,0,0)
-    data.close()
-    oled.show()
-    
-_thread.start_new_thread(button_thread, ())
 
-fileSerial = 1
-maze(fileSerial)
+def direction_thread():
+    global direction
+    while True:
+        if buttonR.value() == 0:direction = 0
+        if buttonD.value() == 0:direction = 1
+        if buttonL.value() == 0:direction = 2
+        if buttonU.value() == 0:direction = 3
+        sleep(0.14)
+        
+_thread.start_new_thread(direction_thread, ())
+
+maze(0)
+
 while True:
-    if x > 128: x =0
-    if x <0: x = 128
-    if y > 64 : y =0
-    if y <0 : y = 64
-    
-    if direction % 4 == 0:x +=1
-    if direction % 4 == 1:y +=1
-    if direction % 4 == 2:x -=1
-    if direction % 4 == 3:y -=1
-    
-    oled.pixel(x,y,1)
     score = score + 1
+    if x > 127: x =0
+    if x <0: x = 127
+    if y > 63 : y =0
+    if y <0 : y = 63
     
-    if buttonR.value() == 0 and buttonL.value() == 0:break
-    
+    if direction == 0:x = x + 1
+    if direction == 1:y = y + 1
+    if direction == 2:x = x - 1
+    if direction == 3:y = y - 1
+    oled.pixel(x,y,1)
     oled.show()
     
+    if buttonA.value() == 0 and buttonB.value() == 0:break
     if [x,y] in path:
-        fail()
-        scoreshow(score,fileSerial)
+        oled.fill(1)
+        oled.text(str(score),54,30,0)
+        oled.show()
         break
     path.append([x,y])

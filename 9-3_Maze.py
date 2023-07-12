@@ -4,9 +4,13 @@ from time import sleep
 import _thread , sys
 
 oled = SSD1306_I2C(128, 64, I2C(0,sda=Pin(20), scl=Pin(21), freq=40000))
-buttonR = machine.Pin(16, machine.Pin.IN, machine.Pin.PULL_UP)
-buttonL = machine.Pin(15, machine.Pin.IN, machine.Pin.PULL_UP)
-buzzer = PWM(Pin(12))
+buttonU = Pin(0, Pin.IN, Pin.PULL_UP)
+buttonD = Pin(1, Pin.IN, Pin.PULL_UP)
+buttonL = Pin(2, Pin.IN, Pin.PULL_UP)
+buttonR = Pin(3, Pin.IN, Pin.PULL_UP)
+buttonA = Pin(14, Pin.IN, Pin.PULL_UP)
+buttonB = Pin(15, Pin.IN, Pin.PULL_UP)
+buzzer = PWM(Pin(13))
 buzzer.freq(500)
 
 oled.fill(0)
@@ -15,14 +19,16 @@ y = 32
 direction = 0
 path =[]
 goal = []
-score = -1
 
-def button_thread():
+
+def direction_thread():
     global direction
     while True:
-        if buttonR.value() == 0:direction = direction + 1
-        if buttonL.value() == 0:direction = direction - 1
-        sleep(0.1)
+        if buttonR.value() == 0:direction = 0
+        if buttonD.value() == 0:direction = 1
+        if buttonL.value() == 0:direction = 2
+        if buttonU.value() == 0:direction = 3
+        sleep(0.14)
 
 def fail():
     buzzer.duty_u16(1000)
@@ -74,7 +80,7 @@ def scoreshow(score,mazeName):
     oled.fill_rect(0, 55, 127, 63, 1)
     oled.text('score '+str(score),35,55,0)
     
-    mazeName = '{:0>2}'.format(fileSerial)#格式化、前面補零
+    mazeName = '{:0>2}'.format(fileSerial)
     data = open('data/maze/'+mazeName+'_r')
     top = int(data.readline())
     
@@ -88,10 +94,11 @@ def scoreshow(score,mazeName):
     data.close()
     oled.show()
     
-_thread.start_new_thread(button_thread, ())
+_thread.start_new_thread(direction_thread, ())
 
-for fileSerial in range(8):
+for fileSerial in range(6):
     maze(fileSerial)
+    score = -1
     while True:
         if x > 128: x =0
         if x <0: x = 128
@@ -106,7 +113,7 @@ for fileSerial in range(8):
         oled.pixel(x,y,1)
         score = score + 1
         
-        if buttonR.value() == 0 and buttonL.value() == 0:break
+        if buttonA.value() == 0 and buttonB.value() == 0:break
         
         oled.show()
         
