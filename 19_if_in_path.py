@@ -1,3 +1,5 @@
+# 如果在軌跡內，則....，條件式要放哪？
+# if [x,y] in path:
 from machine import Pin, I2C
 from ssd1306 import SSD1306_I2C
 from time import sleep
@@ -11,7 +13,7 @@ buttonL = Pin(2, Pin.IN, Pin.PULL_UP)
 buttonR = Pin(3, Pin.IN, Pin.PULL_UP)
 buttonA = Pin(14, Pin.IN, Pin.PULL_UP)
 buttonB = Pin(15, Pin.IN, Pin.PULL_UP)
-direction = random.randint(0,4)
+direction = random.randint(0,3)
 print(direction)
 path = []
 x = 64
@@ -38,9 +40,14 @@ while True:
     if y > 63 : y = 0
     if y < 0 : y = 63
     oled.pixel(x,y,1)
-    path.append([x,y])
+    
     if buttonA.value() == 0 and buttonB.value() == 0:
         print(len(path))
         break
+    if [x,y] in path:
+        oled.fill(1)
+        oled.text(str(len(path)),56,30,0)
+        oled.show()
+        break
     oled.show()
-
+    path.append([x,y])

@@ -11,9 +11,10 @@ buttonL = Pin(2, Pin.IN, Pin.PULL_UP)
 buttonR = Pin(3, Pin.IN, Pin.PULL_UP)
 buttonA = Pin(14, Pin.IN, Pin.PULL_UP)
 buttonB = Pin(15, Pin.IN, Pin.PULL_UP)
-direction = random.randint(0,4)
+direction = random.randint(0,3)
 print(direction)
 path = []
+pathNew = []
 x = 64
 y = 32
 
@@ -24,8 +25,37 @@ def direction_thread():
         if buttonD.value() == 0:direction = 1
         if buttonL.value() == 0:direction = 2
         if buttonU.value() == 0:direction = 3
+        
         sleep(0.14)
-    
+
+def lasery():
+    global direction ,pathNew
+    del pathNew[:]
+    for i in range(0,len(path)):
+        if path[i][0] != x:
+            pathNew.append(path[i])
+    oled.fill(0)
+    for a in range(len(pathNew)):
+        lx = pathNew[a][0]
+        ly = pathNew[a][1]
+        oled.pixel(lx,ly,1)
+    oled.show()
+    return pathNew
+
+def laserx():
+    global direction ,pathNew
+    del pathNew[:]
+    for i in range(0,len(path)):
+        if path[i][1] != y:
+            pathNew.append(path[i])
+    oled.fill(0)
+    for a in range(len(pathNew)):
+        lx = pathNew[a][0]
+        ly = pathNew[a][1]
+        oled.pixel(lx,ly,1)
+    oled.show()
+    return pathNew
+
 _thread.start_new_thread(direction_thread, ())
 
 while True:
@@ -38,9 +68,21 @@ while True:
     if y > 63 : y = 0
     if y < 0 : y = 63
     oled.pixel(x,y,1)
-    path.append([x,y])
+    if buttonA.value() == 0 :
+        laserx()
+        path = pathNew.copy()
+    if buttonB.value() == 0 :
+        lasery()
+        path = pathNew.copy()
+
     if buttonA.value() == 0 and buttonB.value() == 0:
         print(len(path))
         break
+    if [x,y] in path:
+        oled.fill(1)
+        oled.text(str(len(path)),56,30,0)
+        oled.show()
+        break
+        
     oled.show()
-
+    path.append([x,y])
