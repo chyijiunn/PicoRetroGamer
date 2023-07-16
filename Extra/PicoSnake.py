@@ -126,12 +126,12 @@ def pico_snake_main():
     game_timer.init(freq=5, mode=Timer.PERIODIC, callback=update_game)
     
     # Buttons
-    up = Pin(1, Pin.IN, Pin.PULL_UP)
-    down = Pin(0, Pin.IN, Pin.PULL_UP)
+    up = Pin(0, Pin.IN, Pin.PULL_UP)
+    down = Pin(1, Pin.IN, Pin.PULL_UP)
     left = Pin(2, Pin.IN, Pin.PULL_UP)
     right = Pin(3, Pin.IN, Pin.PULL_UP)
-    button1 = Pin(4, Pin.IN, Pin.PULL_UP)
-    button2 = Pin(5, Pin.IN, Pin.PULL_UP)
+    button1 = Pin(14, Pin.IN, Pin.PULL_UP)
+    button2 = Pin(15, Pin.IN, Pin.PULL_UP)
 
     while True:
         if player.state == True:
