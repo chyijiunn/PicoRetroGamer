@@ -11,14 +11,14 @@ buttonR = Pin(3, Pin.IN, Pin.PULL_UP)
 buttonA = Pin(14, Pin.IN, Pin.PULL_UP)
 buttonB = Pin(15, Pin.IN, Pin.PULL_UP)
 buzzer = PWM(Pin(13))
-buzzer.freq(500)
+buzzer.freq(263)
 
 oled.fill(0)
 x = 64
 y = 32
 direction = 0
-path =[]
-goal = []
+path =set()
+goal =set()
 
 
 def direction_thread():
@@ -58,7 +58,7 @@ def maze(fileSerial):
     x = int(b[1])                   
     y = int(b[2])
     for i in range(int((num-3)/2)):   
-        goal.append([int(b[2*i+3]),int(b[2*i+4])])
+        goal.add((int(b[2*i+3]),int(b[2*i+4])))
 
     #以下處理迷宮座標資料，使用 readlines 讀取剩餘資料
     mazelist = data.readlines()
@@ -68,15 +68,19 @@ def maze(fileSerial):
             xAxis = int(a[i].split(',')[0])
             yAxis = int(a[i].split(',')[1])
             oled.pixel(xAxis,yAxis,1)
-            path.append([xAxis,yAxis])
+            path.add((xAxis,yAxis))
     data.close()
     oled.show()
     
 def scoreshow(score,mazeName):
-    buzzer.duty_u16(1000)
-    sleep(1)
-    buzzer.duty_u16(0)
-    
+    note = [500,630,800,630,830,902]
+    for i in note:
+        buzzer.freq(i)
+        buzzer.duty_u16(1000)
+        sleep(0.1)
+        buzzer.duty_u16(0)
+        sleep(0.1)
+        
     oled.fill_rect(0, 55, 127, 63, 1)
     oled.text('score '+str(score),35,55,0)
     
@@ -117,14 +121,14 @@ for fileSerial in range(6):
         
         oled.show()
         
-        if [x,y] in path:
+        if (x,y) in path:
             fail()
             sys.exit()
-        path.append([x,y])
+        path.add((x,y))
         
-        if not ( [x,y]  in goal ):continue
-        del path[:]
-        del goal[:]
+        if not ( (x,y)  in goal ):continue
+        path.clear()
+        goal.clear()
         oled.text('Bravo!',40,55)
         scoreshow(score,fileSerial)
         oled.show()            

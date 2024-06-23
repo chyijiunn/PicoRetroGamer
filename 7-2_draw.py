@@ -4,7 +4,7 @@ i2c=I2C(0,sda=Pin(20), scl=Pin(21), freq=40000)
 oled = SSD1306_I2C(128, 64, i2c)
 
 def maze():
-    data = open('data/maze/01','r')
+    data = open('data/maze/00','r')
     for line in data: 
         a = line.split()
         for i in range(len(a)):

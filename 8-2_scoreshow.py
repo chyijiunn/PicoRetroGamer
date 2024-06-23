@@ -15,8 +15,9 @@ oled.fill(0)
 x = 64
 y = 32
 direction = 0
-path =[]
-goal = []
+path =set()
+goal = set()
+score = 0
     
 def maze(fileSerial):
     global direction
@@ -32,7 +33,7 @@ def maze(fileSerial):
     x = int(b[1])                   
     y = int(b[2])
     for i in range(int((num-3)/2)):   
-        goal.append([int(b[2*i+3]),int(b[2*i+4])])
+        goal.add((int(b[2*i+3]),int(b[2*i+4])))
 
     mazelist = data.readlines()
     for line in mazelist:
@@ -41,7 +42,7 @@ def maze(fileSerial):
             xAxis = int(a[i].split(',')[0])
             yAxis = int(a[i].split(',')[1])
             oled.pixel(xAxis,yAxis,1)
-            path.append([xAxis,yAxis])
+            path.add((xAxis,yAxis))
     data.close()
     oled.show()
 
@@ -59,6 +60,7 @@ _thread.start_new_thread(direction_thread, ())
 maze(0)
 
 while True:
+    score = score + 1
     if x > 127: x =0
     if x <0: x = 127
     if y > 63 : y =0
@@ -72,5 +74,9 @@ while True:
     oled.show()
     
     if buttonA.value() == 0 and buttonB.value() == 0:break
-    if [x,y] in path:break
-    path.append([x,y])
+    if (x,y) in path:
+        oled.fill(1)
+        oled.text(str(score),54,30,0)
+        oled.show()
+        break
+    path.add((x,y))

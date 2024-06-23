@@ -13,7 +13,7 @@ buttonA = Pin(14, Pin.IN, Pin.PULL_UP)
 buttonB = Pin(15, Pin.IN, Pin.PULL_UP)
 direction = random.randint(0,4)
 print(direction)
-path = []
+path = set()
 x = 64
 y = 32
 
@@ -38,7 +38,7 @@ while True:
     if y > 63 : y = 0
     if y < 0 : y = 63
     oled.pixel(x,y,1)
-    path.append([x,y])
+    path.add((x,y))
     if buttonA.value() == 0 and buttonB.value() == 0:
         print(len(path))
         break
