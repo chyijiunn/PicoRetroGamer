@@ -15,6 +15,3 @@ for shift in range(20):
     oled.scroll(-8,0)
     oled.fill_rect(120-(shift*8),0,120-(shift*8),63,0)
     oled.show()
-
-
-
