@@ -9,4 +9,4 @@ oled.fill(0)
 
 for i in range(100):
     oled.pixel(63+random.randint(-63,64),31+random.randint(-31,32),1)
-oled.show()
+    oled.show()

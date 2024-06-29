@@ -7,6 +7,8 @@ oled = SSD1306_I2C(128, 64, i2c)
 
 oled.fill(0)
 
-oled.pixel(20,20,1)
+oled.pixel(0,0,1)
+oled.pixel(127,0,1)
+oled.pixel(0,63,1)
 
 oled.show()
