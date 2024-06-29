@@ -1,8 +1,7 @@
 from machine import Pin
 import time
 buttonA = machine.Pin(14, machine.Pin.IN, machine.Pin.PULL_UP)
-
-count = 0 
+count = ?
 while True:
     print(count,':',buttonA.value())
     count = count + 1
