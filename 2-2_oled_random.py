@@ -5,8 +5,8 @@ import time,random
 i2c=I2C(0,sda=Pin(20), scl=Pin(21), freq=40000)
 oled = SSD1306_I2C(128, 64, i2c)
 
-oled.fill(1)
+oled.fill(0)
 
 for i in range(100):
-    oled.pixel(63+random.randint(-63,64),31+random.randint(-31,32),0)
+    oled.pixel(63+random.randint(-63,64),31+random.randint(-31,32),1)
     oled.show()
