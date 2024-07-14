@@ -1,3 +1,4 @@
+#增加按下右鍵引發動作
 from machine import Pin, I2C
 from ssd1306 import SSD1306_I2C
 
