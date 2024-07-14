@@ -12,7 +12,7 @@
 	+ M2 , M3 螺絲 = 8 , 4
 1. 配置
 	1. 解銲OLED、根據接線圖銲接 OLED 與 pico
-		+ 接線圖 ![pin](/media/01_oled.png)
+		+ 接線圖 ![pin](/media/01_oledVCC_GND_SDL_SDA.png)
 	1. 放按鈕、蜂鳴器於上層壓克力板、銲接配線、貼膠帶
 		+ 接線圖 ![pin](/media/02_button.png)
 	1. 放 Reset 按鈕於下層、穿過壓克力與 pico 銲接、鎖 M2 螺絲 4 個
