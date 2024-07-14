@@ -6,7 +6,7 @@
 ## 硬體組裝
 1. 材料
 	+ raspberry pico 
-	+ OLED 0.96":I2C( GND - VCC - SCL - SDA)
+	+ OLED 0.96":I2C( GND - VCC - SCL - SDA)or( VCC - GND - SCL - SDA)
 	+ 按鈕 * 7
 	+ 有源蜂鳴器
 	+ M2 , M3 螺絲 = 8 , 4
